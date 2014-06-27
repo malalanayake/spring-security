@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:sec="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="
+      http://www.springframework.org/schema/security
+      http://www.springframework.org/schema/security/spring-security-3.2.xsd
+      http://www.springframework.org/schema/beans
+      http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+
+	<!-- Rest authentication entry point configuration -->
+	<http use-expressions="true" entry-point-ref="restAuthenticationEntryPoint">
+		<intercept-url pattern="/api/**" />
+		<sec:form-login authentication-success-handler-ref="mySuccessHandler"
+			authentication-failure-handler-ref="myFailureHandler" />
+
+		<logout />
+	</http>
+
+	<!-- Connect the custom authentication success handler -->
+	<beans:bean id="mySuccessHandler"
+		class="spring.security.rest.api.security.RestAuthenticationSuccessHandler" />
+	<!-- Using default failure handler -->
+	<beans:bean id="myFailureHandler"
+		class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler" />
+
+	<!-- Authentication manager -->
+	<authentication-manager alias="authenticationManager">
+		<authentication-provider>
+			<user-service>
+				<user name="temporary" password="temporary" authorities="ROLE_ADMIN" />
+				<user name="user" password="userPass" authorities="ROLE_USER" />
+			</user-service>
+		</authentication-provider>
+	</authentication-manager>
+
+	<!-- Enable the annotations for defining the secure role -->
+	<global-method-security secured-annotations="enabled" />
+
+</beans:beans>
