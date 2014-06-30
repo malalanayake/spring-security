@@ -29,7 +29,7 @@
 	<beans:bean id="mySuccessHandler"
 		class="spring.security.custom.rest.api.security.RestAuthenticationSuccessHandler" />
 
-	<!-- Using default failure handler -->
+	<!-- Using Authentication Access Denied handler -->
 	<beans:bean id="myAuthenticationAccessDeniedHandler"
 		class="spring.security.custom.rest.api.security.RestAuthenticationAccessDeniedHandler" />
 
